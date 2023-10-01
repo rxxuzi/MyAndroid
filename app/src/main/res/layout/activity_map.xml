@@ -35,20 +35,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-                android:id="@+id/zoomInButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="ズームイン" />
+        <!-- SeekBarの追加 -->
 
-        <Button
-                android:id="@+id/zoomOutButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="ズームアウト" />
-
+        <SeekBar
+                android:id="@+id/zoomSeekBar"
+                android:layout_width="263dp"
+                android:layout_height="match_parent"
+                android:max="25"
+                android:progress="15"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/goToCurrentLocationButton"
+                app:layout_constraintStart_toStartOf="parent"/>
         <Button
                 android:id="@+id/goToCurrentLocationButton"
                 android:layout_width="0dp"

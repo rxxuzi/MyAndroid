@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import org.osmdroid.config.Configuration;
@@ -43,16 +44,42 @@ public class MapActivity extends AppCompatActivity {
             }
         });
 
-        // ここでマップの初期設定を行います
+        //マップの初期設定
         MapView mapView = findViewById(R.id.mapView);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(false);
         mapView.setMultiTouchControls(true);
 
         // マップの初期位置とズームレベルを設定
-        GeoPoint startPoint = new GeoPoint(35.6895, 139.6917); // 例: 東京
-        mapView.getController().setZoom(15);
+        double aLatitude = 35.68121504195521,  aLongitude = 139.76723861886026;
+
+
+        GeoPoint startPoint = new GeoPoint(aLatitude,aLongitude); // 例: 東京駅
+        mapView.getController().setZoom(20d);
         mapView.getController().setCenter(startPoint);
+
+        // SeekBarによるZoom率設定
+        SeekBar zoomSeekBar = findViewById(R.id.zoomSeekBar);
+        zoomSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mapView.getController().setZoom(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Nothing to do
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Nothing to do
+            }
+        });
+
+
+
+
 
     }
 
