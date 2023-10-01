@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="osmdroid_default_user_agent" translatable="false">
+        <item>YourAppName</item>
+        <item>PackageName</item>
+        <item>v1.0</item>
+    </string-array>
+</resources>
