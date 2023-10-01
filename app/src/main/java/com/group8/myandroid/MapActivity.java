@@ -20,6 +20,8 @@ import org.osmdroid.views.MapView;
 
 public class MapActivity extends AppCompatActivity {
 
+    private static final double DEFAULT_ZOOM_VALUE = 17.5d;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +56,8 @@ public class MapActivity extends AppCompatActivity {
         double aLatitude = 35.68121504195521,  aLongitude = 139.76723861886026;
 
 
-        GeoPoint startPoint = new GeoPoint(aLatitude,aLongitude); // 例: 東京駅
-        mapView.getController().setZoom(20d);
+        GeoPoint startPoint = new GeoPoint(aLatitude,aLongitude);
+        mapView.getController().setZoom(DEFAULT_ZOOM_VALUE);
         mapView.getController().setCenter(startPoint);
 
         // SeekBarによるZoom率設定
@@ -63,7 +65,8 @@ public class MapActivity extends AppCompatActivity {
         zoomSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mapView.getController().setZoom(progress);
+                double zoomRate = ((double) progress / 2.5) + DEFAULT_ZOOM_VALUE;
+                mapView.getController().setZoom(zoomRate);
             }
 
             @Override
