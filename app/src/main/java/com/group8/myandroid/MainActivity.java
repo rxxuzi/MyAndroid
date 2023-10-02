@@ -1,7 +1,9 @@
 package com.group8.myandroid;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // JsonからDBにデータをパース
+        DatabaseManager dbManager = new DatabaseManager(this);
+
+        try {
+            dbManager.loadShopsFromJson();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+
+        // データの追加
+        long id = dbHelper.insertShops("Sample shops", 35.68121504195521, 139.76723861886026,
+                3.5, "Japanese", "Sample description",
+                null, "twitter.com", "Tokyo, Japan");
+        if (id != -1) {
+            Log.d("MainActivity", "Inserted shops with ID: " + id);
+        }
+
+        // データの取得
+        Cursor cursor = dbHelper.getAllShops();
+        while (cursor.moveToNext()) {
+            int nameColumnIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME);
+            if (nameColumnIndex != -1) {
+                String name = cursor.getString(nameColumnIndex);
+                Log.d("MainActivity", "Retrieved shops: " + name);
+            } else {
+                Log.e("MainActivity", "Name column not found in the result.");
+            }
+        }
+        cursor.close();
 
         // マップ表示ボタンのインスタンスを取得
         Button mapButton = findViewById(R.id.mapButton);
