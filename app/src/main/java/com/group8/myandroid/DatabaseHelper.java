@@ -100,6 +100,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param domicile the domicile of the shop.
      *                      (e.g. "Tokyo, Japan", "New York, USA")
      * @return the row ID of the newly inserted shop record.
+     *
+     * @since 1.0.3
      */
     public long insertShops(String name, double latitude, double longitude,
                             double rating, String genre, String description,

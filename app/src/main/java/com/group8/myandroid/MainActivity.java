@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * <h1>MainActivity</h1>
  * This class provides the main activity of the app.
  *
+ * @see AppCompatActivity
  * @author rxxuzi
  * @version 1.0.0
  * @since 1.0.3

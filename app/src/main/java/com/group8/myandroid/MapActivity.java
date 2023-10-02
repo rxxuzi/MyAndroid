@@ -60,10 +60,10 @@ public class MapActivity extends AppCompatActivity {
         mapView.setBuiltInZoomControls(false);
         mapView.setMultiTouchControls(true);
 
-        // マップの初期位置とズームレベルを設定
+        // マップの初期座標
         double aLatitude = 35.68121504195521,  aLongitude = 139.76723861886026;
 
-
+        // マップの初期位置とズームレベルを設定
         GeoPoint startPoint = new GeoPoint(aLatitude,aLongitude);
         mapView.getController().setZoom(DEFAULT_ZOOM_VALUE);
         mapView.getController().setCenter(startPoint);

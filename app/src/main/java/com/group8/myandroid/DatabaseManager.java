@@ -13,6 +13,7 @@ import java.io.InputStream;
  * This class provides methods to manage the database operations
  * related to shops. It includes methods for inserting, retrieving,
  * and deleting shop records.
+ *
  * @author rxxuzi
  * @version 1.0.0
  * @since 1.0.3
