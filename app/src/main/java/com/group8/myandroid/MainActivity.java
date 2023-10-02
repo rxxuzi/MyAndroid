@@ -8,6 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * <h1>MainActivity</h1>
+ * This class provides the main activity of the app.
+ *
+ * @author rxxuzi
+ * @version 1.0.0
+ * @since 1.0.3
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -21,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             dbManager.loadShopsFromJson();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("MainActivity", e.getMessage());
         }
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
