@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+import com.group8.myandroid.global.Logger;
 
 /**
  * <h1>MainActivity</h1>
