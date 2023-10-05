@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import com.group8.myandroid.global.Logger;
+import com.group8.myandroid.global.EasyLogger;
 
 /**
  * <h1>MainActivity</h1>
@@ -20,6 +20,7 @@ import com.group8.myandroid.global.Logger;
  */
 public class MainActivity extends AppCompatActivity {
 
+    EasyLogger logger = new EasyLogger("MainActivity" , true);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             dbManager.loadShopsFromJson();
         } catch (Exception e) {
-            Log.e("MainActivity", e.getMessage());
+            logger.error(e);
         }
+
+
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
 
