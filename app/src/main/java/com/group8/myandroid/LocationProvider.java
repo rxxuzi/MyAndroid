@@ -6,7 +6,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import com.group8.myandroid.global.Logger;
+import com.group8.myandroid.global.EasyLogger;
 
 /**
  * <h1>LocationProvider</h1>
@@ -33,7 +33,7 @@ public class LocationProvider implements LocationListener {
                     this
             );
         } catch (SecurityException e) {
-            Logger.err(e);
+            new EasyLogger().error(e);
         }
     }
 
