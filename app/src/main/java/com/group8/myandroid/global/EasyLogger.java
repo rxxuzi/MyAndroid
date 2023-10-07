@@ -3,6 +3,8 @@ package com.group8.myandroid.global;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import java.util.List;
+
 /**
  * <h1>EasyLogger</h1>
  * EasyLogger is a utility class that simplifies logging in Android applications.
@@ -125,6 +127,19 @@ public final class EasyLogger {
         Log.d(tag, msg(message));
     }
 
+    // デバッグログを出力
+    public void debug(Object object) {
+        Log.d(tag, msg(object.toString()));
+    }
+
+    // デバッグログを出力
+    public void debug(List<Object> list) {
+        if (list != null && !list.isEmpty()){
+            for (Object o : list){
+                Log.d(tag, msg(o.toString()));
+            }
+        }
+    }
     // 情報ログを出力
     public void info(String message) {
         Log.i(tag, msg(message));
@@ -133,6 +148,19 @@ public final class EasyLogger {
     // 警告ログを出力
     public void warn(String message) {
         Log.w(tag, msg(message));
+    }
+
+    // システムに回復不能な問題が発生したことを示すログを出力
+    public void fatal(String message) {
+        Log.wtf(tag, msg(message));
+    }
+    // システムに回復不能な問題が発生したことを示すログを出力
+    public void fatal(String message, Throwable throwable) {
+        Log.wtf(tag, msg(message), throwable);
+    }
+    // システムに回復不能な問題が発生したことを示すログを出力
+    public void fatal(Exception exception) {
+        Log.wtf(tag, msg(exception.getMessage()), exception);
     }
 
     // トレース情報の切り替え
