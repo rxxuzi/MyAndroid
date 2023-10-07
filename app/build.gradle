@@ -42,4 +42,7 @@ dependencies {
 //     Google Play services の Location APIを使用する
 //    implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.3.1'
 }
