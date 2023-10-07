@@ -51,15 +51,16 @@
             android:layout_marginTop="16dp" />
 
     <!-- 店舗一覧 -->
-    <ListView
-            android:id="@+id/storeList"
-            android:layout_width="392dp"
-            android:layout_height="432dp"
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="394dp"
+            android:layout_height="444dp"
             app:layout_constraintBottom_toTopOf="@+id/btnSearch"
             app:layout_constraintTop_toBottomOf="@+id/sortSpinner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="1.0"/>
+
     <!-- 検索ボタン -->
     <Button
             android:id="@+id/btnSearch"
@@ -69,7 +70,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
