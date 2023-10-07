@@ -1,16 +1,15 @@
-package com.group8.myandroid;
+package com.group8.myandroid.database;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import com.group8.myandroid.R;
 import com.group8.myandroid.global.EasyLogger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import java.util.ArrayList;
 import com.group8.myandroid.database.*;
 
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * <h1>DatabaseManager</h1>
@@ -43,6 +42,20 @@ public class DatabaseManager {
             logger.error(e);
         }
     }
+
+    public void dbCleanUp() {
+        database.delete(DatabaseHelper.TABLE_NAME, null, null);
+        database.close();
+    }
+
+    // TODO クリーンアップした時にidが0からスタートしない問題を解決する
+    public static void dbCleanUp(Context context) {
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.delete(DatabaseHelper.TABLE_NAME, null, null);
+        database.close();
+    }
+
 
     /**
      * Inserts a new shop record into the database.

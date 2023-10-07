@@ -1,4 +1,4 @@
-package com.group8.myandroid;
+package com.group8.myandroid.database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
