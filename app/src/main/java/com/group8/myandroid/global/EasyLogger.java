@@ -36,9 +36,10 @@ import android.util.Log;
  *
  * @author rxxuzi
  */
-public class EasyLogger {
+public final class EasyLogger {
     private final String tag;
     private boolean getTrace = false;
+
 
     private static int totalCalls = 0;
 
@@ -46,11 +47,25 @@ public class EasyLogger {
     public EasyLogger() {
         this.tag = "EasyLogger";
     }
+    /**
+     * タグが指定されたオブジェクトのクラスの単純な名前に設定された EasyLogger インスタンスを作成する。
+     *
+     * @param object An object to determine the tag from its class name.
+     */
+    public EasyLogger(Object object) {
+        this.tag = object.getClass().getSimpleName();
+    }
+
+    public EasyLogger(Object object, boolean getTrace) {
+        this.tag = object.getClass().getSimpleName();
+        this.getTrace = getTrace;
+    }
 
     public EasyLogger(boolean getTrace) {
         this.getTrace = getTrace;
         this.tag = "EasyLogger"; // デフォルトタグ"EasyLogger"を採用
     }
+
     public EasyLogger(String tag) {
         this.tag = tag;
     }
