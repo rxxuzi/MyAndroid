@@ -134,8 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getAllShops() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        return cursor;
+        return db.query(TABLE_NAME, null, null, null, null, null, null);
     }
 
 }

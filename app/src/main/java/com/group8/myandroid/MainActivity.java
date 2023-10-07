@@ -1,12 +1,9 @@
 package com.group8.myandroid;
 
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+import com.group8.myandroid.database.Shop;
+import com.group8.myandroid.database.Shops;
 import com.group8.myandroid.global.EasyLogger;
 
 /**
@@ -20,7 +17,7 @@ import com.group8.myandroid.global.EasyLogger;
  */
 public class MainActivity extends AppCompatActivity {
 
-    EasyLogger logger = new EasyLogger("MainActivity" , true);
+    EasyLogger logger = new EasyLogger("XYZ" , true);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,48 +28,16 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             dbManager.loadShopsFromJson();
+            dbManager.addShopsArray();
         } catch (Exception e) {
             logger.error(e);
         }
 
-
-
         DatabaseHelper dbHelper = new DatabaseHelper(this);
 
-        // データの追加
-        long id = dbHelper.insertShops("Sample shops", 35.68121504195521, 139.76723861886026,
-                3.5, "Japanese", "Sample description",
-                null, "twitter.com", "Tokyo, Japan");
-        if (id != -1) {
-            Log.d("MainActivity", "Inserted shops with ID: " + id);
+        for (Shop shop : Shops.shops) {
+            logger.debug(shop.toString());
         }
 
-        // データの取得
-        Cursor cursor = dbHelper.getAllShops();
-        while (cursor.moveToNext()) {
-            int nameColumnIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME);
-            if (nameColumnIndex != -1) {
-                String name = cursor.getString(nameColumnIndex);
-                Log.d("MainActivity", "Retrieved shops: " + name);
-            } else {
-                Log.e("MainActivity", "Name column not found in the result.");
-            }
-        }
-        cursor.close();
-
-        // マップ表示ボタンのインスタンスを取得
-        Button mapButton = findViewById(R.id.mapButton);
-
-        // ボタンのクリックリスナーを設定
-        mapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // MapActivityへのインテントを作成
-                Intent intent = new Intent(MainActivity.this, MapActivity.class);
-
-                // MapActivityを開始
-                startActivity(intent);
-            }
-        });
     }
 }

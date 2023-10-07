@@ -87,12 +87,6 @@ public class MapActivity extends AppCompatActivity {
                 // Nothing to do
             }
         });
-
-
-
-
-
     }
-
 }
 
