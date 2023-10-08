@@ -4,6 +4,9 @@ import android.Manifest;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -33,6 +36,8 @@ import java.util.Collections;
 public class MapActivity extends AppCompatActivity {
 
     private static final double DEFAULT_ZOOM_VALUE = 17.5d;
+    private static final int MARKER_WIDTH = 100;
+    private static final int MARKER_HEIGHT = 100;
 
     // マップの初期座標
     private double latitude  = 35.68121504195521;
@@ -110,8 +115,14 @@ public class MapActivity extends AppCompatActivity {
 
         // オプション: ピンを立てる
         OverlayItem myLocationOverlayItem = new OverlayItem(shopName, "This is your selected shop", startPoint);
-        Drawable myCurrentLocationMarker = this.getResources().getDrawable(R.drawable.marker);
-        myLocationOverlayItem.setMarker(myCurrentLocationMarker);
+        Drawable originalMarker = this.getResources().getDrawable(R.drawable.marker);
+
+        // サイズ変更
+        Drawable resizedMarker = resize(originalMarker, MARKER_WIDTH, MARKER_HEIGHT);
+
+        // リサイズされたマーカーとして設定する
+        myLocationOverlayItem.setMarker(resizedMarker);
+
 
         ItemizedIconOverlay<OverlayItem> locationOverlay = new ItemizedIconOverlay<>(Collections.singletonList(myLocationOverlayItem), new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
             @Override
@@ -126,6 +137,24 @@ public class MapActivity extends AppCompatActivity {
         }, getApplicationContext());
 
         mapView.getOverlays().add(locationOverlay);
+
+
     }
+
+    /**
+     * Resize the given drawable.
+     *
+     * @param image    Original drawable to be resized.
+     * @param width    Desired width of the resulting drawable.
+     * @param height   Desired height of the resulting drawable.
+     * @return         New resized Drawable instance.
+     */
+    private Drawable resize(Drawable image, int width, int height) {
+        Bitmap b = ((BitmapDrawable) image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, width, height, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
+    }
+
+
 }
 
