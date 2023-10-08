@@ -2,9 +2,8 @@ package com.group8.myandroid.database;
 
 import com.group8.myandroid.global.EasyLogger;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.text.Collator;
+import java.util.*;
 
 public class Shops {
     public static List<Shop> shops = new ArrayList<>();
@@ -28,6 +27,13 @@ public class Shops {
     //名前でソート
     public static void sortByName() {
         shops.sort(Comparator.comparing(Shop::getName));
+    }
+
+    //名前でソート(日本語)
+    public static void sortByNameInJp() {
+        // 日本語のコンパレータを取得
+        Collator collator = Collator.getInstance(Locale.JAPANESE);
+        shops.sort(collator);
     }
 
     public static void findByKeyword(String keyword) {
