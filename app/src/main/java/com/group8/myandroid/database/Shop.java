@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 public class Shop {
     private final int id;
     private String name;
+    private final double[] location;
     private final double latitude;
     private final double longitude;
     private final double rating;
@@ -27,6 +28,7 @@ public class Shop {
         this.homepage = homepage;
         this.sns = sns;
         this.domicile = domicile;
+        this.location = new double[]{latitude, longitude};
     }
 
     public String getName() {
@@ -60,6 +62,10 @@ public class Shop {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public double[] getLocation(){
+        return location;
     }
 
     public double getRating() {

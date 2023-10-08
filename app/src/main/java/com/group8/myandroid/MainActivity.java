@@ -61,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // ShopAdapterを作成し、RecyclerViewにセット
-        ShopAdapter shopAdapter = new ShopAdapter(Shops.shops);
+        ShopAdapter shopAdapter = new ShopAdapter(Shops.shops, this);
         recyclerView.setAdapter(shopAdapter);
-
-
     }
 }

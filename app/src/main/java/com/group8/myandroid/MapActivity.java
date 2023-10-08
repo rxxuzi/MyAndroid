@@ -4,18 +4,20 @@ import android.Manifest;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.library.BuildConfig;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
+
+import java.util.Collections;
 
 /**
  * <h1>MapActivity</h1>
@@ -32,9 +34,26 @@ public class MapActivity extends AppCompatActivity {
 
     private static final double DEFAULT_ZOOM_VALUE = 17.5d;
 
+    // マップの初期座標
+    private double latitude  = 35.68121504195521;
+    private double longitude = 139.76723861886026;
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.latitude = getIntent().getDoubleExtra("latitude", 0);
+        this.longitude = getIntent().getDoubleExtra("longitude", 0);
+        String shopName = getIntent().getStringExtra("shopName");
+
 
         // ユーザーエージェントの設定
         Configuration.getInstance().setUserAgentValue(getPackageName());
@@ -60,11 +79,9 @@ public class MapActivity extends AppCompatActivity {
         mapView.setBuiltInZoomControls(false);
         mapView.setMultiTouchControls(true);
 
-        // マップの初期座標
-        double aLatitude = 35.68121504195521,  aLongitude = 139.76723861886026;
 
         // マップの初期位置とズームレベルを設定
-        GeoPoint startPoint = new GeoPoint(aLatitude,aLongitude);
+        GeoPoint startPoint = new GeoPoint(latitude, longitude);
         mapView.getController().setZoom(DEFAULT_ZOOM_VALUE);
         mapView.getController().setCenter(startPoint);
 
@@ -87,6 +104,28 @@ public class MapActivity extends AppCompatActivity {
                 // Nothing to do
             }
         });
+
+
+        // マップをセットアップする処理
+
+        // オプション: ピンを立てる
+        OverlayItem myLocationOverlayItem = new OverlayItem(shopName, "This is your selected shop", startPoint);
+        Drawable myCurrentLocationMarker = this.getResources().getDrawable(R.drawable.marker);
+        myLocationOverlayItem.setMarker(myCurrentLocationMarker);
+
+        ItemizedIconOverlay<OverlayItem> locationOverlay = new ItemizedIconOverlay<>(Collections.singletonList(myLocationOverlayItem), new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+            @Override
+            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onItemLongPress(final int index, final OverlayItem item) {
+                return true;
+            }
+        }, getApplicationContext());
+
+        mapView.getOverlays().add(locationOverlay);
     }
 }
 

@@ -1,8 +1,11 @@
 package com.group8.myandroid;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,41 +14,61 @@ import com.group8.myandroid.database.Shop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder> {
-    private final List<Shop> shops;
+/**
+ * <h1>ShopAdapter</h1>
+ * Adapter class for managing a list of shops in a RecyclerView.
+ *
+ * <p>This adapter is responsible for creating and binding ViewHolders
+ * that represent items in a data set of Shop objects.
+ *
+ * @author rxxuzi
+ */
+public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
-    public ShopAdapter(List<Shop> shops) {
-        this.shops = shops;
+    private final List<Shop> shopList;
+    private final Context context;
+
+    public ShopAdapter(List<Shop> shopList, Context context) {
+        this.shopList = shopList;
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public ShopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.shop_item, parent, false);
-        return new ShopViewHolder(itemView);
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShopViewHolder holder, int position) {
-        Shop shop = shops.get(position);
-        holder.nameTextView.setText(shop.getName());
-        // 他のビューへのデータバインディングもここで行います...
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Shop currentShop = shopList.get(position);
+
+        holder.shopNameTextView.setText(currentShop.getName());
+        holder.btnMap.setOnClickListener(v -> {
+            Intent intent = new Intent(context, MapActivity.class);
+            intent.putExtra("latitude", currentShop.getLatitude());
+            intent.putExtra("longitude", currentShop.getLongitude());
+            context.startActivity(intent);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return shops.size();
+        return shopList.size();
     }
 
-    public static class ShopViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTextView;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView shopNameTextView;
+        Button btnMap;
 
-        public ShopViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameTextView = itemView.findViewById(R.id.shopName);
-            // 他のビューもここでバインドします...
+            shopNameTextView = itemView.findViewById(R.id.shopName);
+            btnMap = itemView.findViewById(R.id.btnMap);
         }
     }
 }
+
 
