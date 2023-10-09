@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/add_shop.css">
     <title>新しい店を追加</title>
 </head>
 <body>
@@ -38,5 +38,9 @@
 
     <input type="submit" value="店を追加">
 </form>
+
+<a href="index.php" style="text-decoration: none;">
+    <button id="back-button" class="back">Back</button>
+</a>
 </body>
 </html>

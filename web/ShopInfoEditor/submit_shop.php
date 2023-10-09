@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/add_shop.css">
     <title>店を追加しました</title>
 </head>
 <body>
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php else: ?>
     <h1>エラー：フォームが正しく記入されていません。</h1>
 <?php endif; ?>
-<a href="index.html">別の店を追加</a>
+<a href="add_shop.php">別の店を追加</a>
 </body>
 </html>
 

@@ -1,0 +1,66 @@
+[
+    {
+        "id": 0,
+        "name": "SampleX",
+        "location": {
+            "latitude": 35.68121504195521,
+            "longitude": 139.76723861886026
+        },
+        "rating": 3.5,
+        "genre": "japanese",
+        "info": {
+            "description": "This is sample description",
+            "homepage": null,
+            "sns": "www.twitter.com",
+            "domicile": "XXXXXXXXXXXXXXX"
+        }
+    },
+    {
+        "id": 1,
+        "name": "SampleY",
+        "location": {
+            "latitude": 35.56244732840695,
+            "longitude": 139.71581358739985
+        },
+        "rating": 4.7,
+        "genre": "japanese",
+        "info": {
+            "description": "This is sample description",
+            "homepage": "www.sample.com",
+            "sns": "www.twitter.com",
+            "domicile": "YYYYYYYYYYYYY"
+        }
+    },
+    {
+        "id": 2,
+        "name": "SampleZ",
+        "location": {
+            "latitude": 35.714306524591684,
+            "longitude": 139.7773769176965
+        },
+        "rating": 3.5,
+        "genre": "fast-food",
+        "info": {
+            "description": "This is sample description",
+            "homepage": null,
+            "sns": null,
+            "domicile": "ZZZZZZZZZZZZZ"
+        }
+    },
+    {
+        "id": 3,
+        "name": "sample",
+        "location": {
+            "latitude": "35.68976738794202",
+            "longitude": "139.70063494011524"
+        },
+        "rating": "1.9",
+        "genre": "chinese",
+        "info": {
+            "description": "Sample",
+            "homepage": null,
+            "sns": "https:\/\/www.x.com",
+            "domicile": "AAAAAAAAAAAA"
+        }
+    }
+]

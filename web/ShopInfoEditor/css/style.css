@@ -1,0 +1,97 @@
+:root {
+    --lbp: 15px 32px;
+    --lbr: 7px;
+
+    --sbp: 10px 20px;
+    --sbr: 15px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+}
+
+.shopTable,
+#shopTableContainer {
+    margin: auto;
+    width: 75%;
+}
+
+.shopTable {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+}
+
+.shopTable th {
+    text-align: left;
+    padding-right: 20px;
+}
+
+.shopTable td {
+    min-width: 100px;
+}
+
+#shop0 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.b{
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    transition: transform 0.4s, box-shadow 0.4s; /* Add transform to the transition */
+}
+
+.b:hover {
+    background-color: white;
+    color: black;
+    transform: scale(1.05); /* Slightly enlarge the button */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for a "lifting" effect */
+}
+
+.add {
+    background-color: #10ACFF;
+    padding: var(--lbp);
+    border-radius: var(--lbr);
+}
+.add:hover{
+    border: 1px solid #10ACFF;
+}
+
+.control {
+    background-color: #4CDF50;
+    padding: var(--lbp);
+    border-radius: var(--lbr);
+}
+.control:hover{
+    border: 1px solid #4CDF50;
+}
+
+.orange {
+    background-color: darkorange;
+    padding: var(--sbp);
+    border-radius: var(--sbr);
+}
+.orange:hover{
+    border: 1px solid darkorange;
+}
+
+.red {
+    background-color: #F90A0B;
+    padding: var(--sbp);
+    border-radius: var(--sbr);
+}
+.red:hover{
+    border: 1px solid #F90A0B;
+}
