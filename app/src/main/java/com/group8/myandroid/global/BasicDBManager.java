@@ -81,5 +81,5 @@ public interface BasicDBManager {
      * @return The number of entities successfully inserted into the database.
      * @throws JSONException If an error occurs while parsing the JSON data.
      */
-    int loadFromJson(InputStream inputStream) throws JSONException;1
+    int loadFromJson(InputStream inputStream) throws JSONException;
 }
