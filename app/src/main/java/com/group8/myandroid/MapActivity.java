@@ -3,6 +3,7 @@ package com.group8.myandroid;
 import android.Manifest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -58,9 +59,10 @@ public class MapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.latitude = getIntent().getDoubleExtra("latitude", 0);
-        this.longitude = getIntent().getDoubleExtra("longitude", 0);
-        String shopName = getIntent().getStringExtra("shopName");
+        Intent intent = getIntent();
+        this.latitude = intent.getDoubleExtra("latitude", 0);
+        this.longitude = intent.getDoubleExtra("longitude", 0);
+        String shopName = intent.getStringExtra("shopName");
 
 
         // ユーザーエージェントの設定
@@ -159,6 +161,10 @@ public class MapActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // 店舗名をTextViewに設定
+        TextView tvShopName = findViewById(R.id.tvShopName);
+        tvShopName.setText(shopName);
 
     }
 

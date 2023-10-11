@@ -48,8 +48,10 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         holder.shopNameTextView.setText(currentShop.getName());
         holder.btnMap.setOnClickListener(v -> {
             Intent intent = new Intent(context, MapActivity.class);
+            //緯度経度を取得
             intent.putExtra("latitude", currentShop.getLatitude());
             intent.putExtra("longitude", currentShop.getLongitude());
+            intent.putExtra("shopName", currentShop.getName());  // 店舗名を追加
             context.startActivity(intent);
         });
     }
