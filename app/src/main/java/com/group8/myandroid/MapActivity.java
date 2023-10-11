@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -20,7 +21,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * <h1>MapActivity</h1>
@@ -124,20 +127,38 @@ public class MapActivity extends AppCompatActivity {
         myLocationOverlayItem.setMarker(resizedMarker);
 
 
-        ItemizedIconOverlay<OverlayItem> locationOverlay = new ItemizedIconOverlay<>(Collections.singletonList(myLocationOverlayItem), new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-            @Override
-            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                return true;
-            }
+        List<OverlayItem> overlayItems = new ArrayList<>();
+        overlayItems.add(myLocationOverlayItem);
 
-            @Override
-            public boolean onItemLongPress(final int index, final OverlayItem item) {
-                return true;
-            }
-        }, getApplicationContext());
+        ItemizedIconOverlay<OverlayItem> locationOverlay;
+
+        locationOverlay = new ItemizedIconOverlay<>(overlayItems,
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                    @Override
+                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        return true;
+                    }
+                }, getApplicationContext());
+
 
         mapView.getOverlays().add(locationOverlay);
 
+
+        //前の画面に遷移するボタン
+        // ボタンにクリックリスナーをセット
+        Button prevButton = findViewById(R.id.prevButton);
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 現在のアクティビティを終了し、前のアクティビティに戻る
+                finish();
+            }
+        });
 
     }
 
