@@ -3,7 +3,7 @@
 [![wakatime](https://wakatime.com/badge/user/8129592d-4e44-4804-993e-6399598e16d3/project/11db2339-4031-4189-94cc-8f36b15dd2d5.svg)](https://wakatime.com/badge/user/8129592d-4e44-4804-993e-6399598e16d3/project/11db2339-4031-4189-94cc-8f36b15dd2d5)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/rxxuzi/myandroid)
 ![GitHub repo size](https://img.shields.io/github/repo-size/rxxuzi/MyAndroid)
-![License](https://img.shields.io/badge/license-Apache_2.0-g)
+[![License](https://img.shields.io/badge/license-Apache_2.0-g)](LICENSE)
 ![example workflow](https://github.com/rxxuzi/MyAndroid/actions/workflows/android.yml/badge.svg)
 
 ## Features
@@ -37,6 +37,10 @@ Ensure you have the following installed on your local system:
 
 ## Credits
 This project was developed by Group 8.
+
+## Json Editor 
+
+This project has a web UI for editing json. See [WEB UI](web/) for details.
 
 ## License
 This project is licensed under the Apache License 2.0. - see the [LICENSE](LICENSE) file for details.
