@@ -135,9 +135,18 @@ public final class EasyLogger {
     // デバッグログを出力
     public void debug(List<Object> list) {
         if (list != null && !list.isEmpty()){
+            int counter = 0;
+            StringBuilder message = new StringBuilder("List : [ \n");
             for (Object o : list){
-                Log.d(tag, msg(o.toString()));
+                message.append("index").append(counter).append(":").append(o.toString()).append("\n");
             }
+            message.append("]");
+
+            Log.d(tag, msg(message.toString()));
+        }else if (list == null) {
+            Log.e(tag, "List is null");
+        }else {
+            Log.e(tag, "List is Empty");
         }
     }
     // 情報ログを出力
