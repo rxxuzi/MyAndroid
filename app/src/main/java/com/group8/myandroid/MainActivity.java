@@ -3,6 +3,9 @@ package com.group8.myandroid;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,6 +19,8 @@ import com.group8.myandroid.database.Shops;
 import com.group8.myandroid.global.EasyLogger;
 import android.Manifest;
 import android.content.pm.PackageManager;
+
+import java.util.List;
 
 
 /**
@@ -94,6 +99,27 @@ public class MainActivity extends AppCompatActivity {
         // ShopAdapterを作成し、RecyclerViewにセット
         ShopAdapter shopAdapter = new ShopAdapter(Shops.shops, this);
         recyclerView.setAdapter(shopAdapter);
+
+        // SortSpinner(ソート選択をするスピナー)
+        Spinner sortSpinner = findViewById(R.id.sortSpinner);
+
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // ソートロジックのトリガー
+                String selectedSortOption = (String) parentView.getItemAtPosition(position);
+                sortShops(selectedSortOption);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // 何も選択されていない場合のコード（通常は無視）
+            }
+        });
+    }
+
+    private void sortShops(String sortOption) {
+        List<Shop> sortedShops = Shops.sortShops(sortOption);  // sortShopsメソッドは、ソートオプションに基づいて適切にショップリストをソー
     }
 
     private void requestLocationPermission() {
