@@ -12,6 +12,7 @@
     </string-array>
 
     <string-array name="sort_array">
+        <item>ID順</item>
         <item>名前順</item>
         <item>評価順</item>
         <item>距離順</item>

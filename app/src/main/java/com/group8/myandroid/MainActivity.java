@@ -18,7 +18,6 @@ import com.group8.myandroid.database.Shop;
 import com.group8.myandroid.database.Shops;
 import com.group8.myandroid.global.EasyLogger;
 import android.Manifest;
-import android.content.pm.PackageManager;
 
 import java.util.List;
 
@@ -38,11 +37,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private LocationProvider locationProvider;
     public static final boolean LOAD = true;
+    private ShopAdapter shopAdapter; // RecyclerViewのアダプター
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        shopAdapter = new ShopAdapter(Shops.shops_, this);
 
         DatabaseManager.dbCleanUp(this);
 
@@ -97,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // ShopAdapterを作成し、RecyclerViewにセット
-        ShopAdapter shopAdapter = new ShopAdapter(Shops.shops, this);
+        Shops.refresh();
+        ShopAdapter shopAdapter = new ShopAdapter(Shops.shops_, this);
         recyclerView.setAdapter(shopAdapter);
 
         // SortSpinner(ソート選択をするスピナー)
@@ -105,10 +108,11 @@ public class MainActivity extends AppCompatActivity {
 
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // ソートロジックのトリガー
-                String selectedSortOption = (String) parentView.getItemAtPosition(position);
-                sortShops(selectedSortOption);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sortShops(position);
+                // アダプターにデータセットが変更されたことを通知
+//                shopAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(shopAdapter);
             }
 
             @Override
@@ -118,8 +122,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void sortShops(String sortOption) {
-        List<Shop> sortedShops = Shops.sortShops(sortOption);  // sortShopsメソッドは、ソートオプションに基づいて適切にショップリストをソー
+    private void sortShops(int sortOption) {
+        // 店舗リストをソートする
+        Shops.sortedShops(sortOption);
+        if (shopAdapter == null) {
+            logger.error("shopAdapter is null");
+        }else{
+            shopAdapter.notifyDataSetChanged();  // UIを更新
+        }
     }
 
     private void requestLocationPermission() {

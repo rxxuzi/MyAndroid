@@ -35,9 +35,14 @@ public class Shops {
     public static void sortByNameInJp() {
         // 日本語のコンパレータを取得
         Collator collator = Collator.getInstance(Locale.JAPANESE);
-        shops_.sort(collator);
+        shops_.sort((s1, s2) -> {
+            // 名前を取得してCollatorを使って比較
+            return collator.compare(s1.getName(), s2.getName());
+        });
+
     }
 
+    //距離でソート
     public static void findByKeyword(String keyword) {
         shops_.clear();
         for (Shop shop : shops) {
@@ -55,41 +60,19 @@ public class Shops {
         }
     }
 
-    public static List<Shop> sortShops(String sortOption) {
+    /**
+     *
+     * @param sortOption "Rating", "Name", "ID"
+     * @return sorted shops list
+     */
+    public static List<Shop> sortedShops(int sortOption) {
         refresh();
-
-        if ("Rating".equals(sortOption)) {
-            Collections.sort(shops_, new Comparator<Shop>() {
-                @Override
-                public int compare(Shop o1, Shop o2) {
-                    // 評価を基に降順でソート
-                    return Double.compare(o2.getRating(), o1.getRating());
-                }
-            });
-        } else if ("Name".equals(sortOption)) {
-            Collections.sort(shops_, new Comparator<Shop>() {
-                @Override
-                public int compare(Shop o1, Shop o2) {
-                    // 名前を基に昇順でソート
-                    return o1.getName().compareTo(o2.getName());
-                }
-            });
-        } else if ("評価順".equals(sortOption)){
-            Collections.sort(shops_, new Comparator<Shop>() {
-                @Override
-                public int compare(Shop o1, Shop o2) {
-                    // 評価を基に降順でソート
-                    return Double.compare(o2.getRating(), o1.getRating());
-                }
-            });
-        } else {
-            Collections.sort(shops_, new Comparator<Shop>() {
-                @Override
-                public int compare(Shop o1, Shop o2) {
-                    // 評価を基に降順でソート
-                    return Double.compare(o2.getRating(), o1.getRating());
-                }
-            });
+        switch (sortOption){
+            case 0: sortById(); break;
+            case 1: sortByNameInJp(); break;
+            case 2: sortByRating(); break;
+            case 3: sortByRating(); break; //tmp
+            default: sortById(); break;
         }
         logger.debug(shops_);
         return shops_;
