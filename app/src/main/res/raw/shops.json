@@ -46,5 +46,53 @@
       "sns" : null,
       "domicile" : "ZZZZZZZZZZZZZ"
     }
+  },
+  {
+    "id" : 4,
+    "name": "SampleAlpha",
+    "location" : {
+      "latitude"  : 35.69839089383949,
+      "longitude" : 139.77329289921218
+    },
+    "rating" : 5.0,
+    "genre" : "fast-food",
+    "info" : {
+      "description" : "This is sample description",
+      "homepage" : null,
+      "sns" : null,
+      "domicile" : "ααααααααααα"
+    }
+  },
+  {
+    "id" : 5,
+    "name": "SampleBeta",
+    "location" : {
+      "latitude"  : 35.702548985564505,
+      "longitude" : 139.75362165719326
+    },
+    "rating" : 2.5,
+    "genre" : "japanese",
+    "info" : {
+      "description" : "This is sample description",
+      "homepage" : null,
+      "sns" : "www.sample.com",
+      "domicile" : "ββββββββββββ"
+    }
+  },
+  {
+    "id" : 6,
+    "name": "SampleGamma",
+    "location" : {
+      "latitude"  : 35.66474176445839,
+      "longitude" : 139.7322625989642
+    },
+    "rating" : 2.0,
+    "genre" : "chinese",
+    "info" : {
+      "description" : "This is sample description",
+      "homepage" : "www.sample.com",
+      "sns" : null,
+      "domicile" : "γγγγγγγγγγγγγ"
+    }
   }
 ]
