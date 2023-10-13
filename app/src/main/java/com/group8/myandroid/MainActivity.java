@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -120,6 +121,34 @@ public class MainActivity extends AppCompatActivity {
                 // 何も選択されていない場合のコード（通常は無視）
             }
         });
+
+        Spinner genreSpinner = findViewById(R.id.genreSpinner);
+
+        // Get unique genres from shops
+        List<String> genres = Shops.getUniqueGenres();
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genres);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        genreSpinner.setAdapter(adapter);
+
+        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     private void sortShops(int sortOption) {

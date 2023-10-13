@@ -4,10 +4,12 @@ import com.group8.myandroid.global.EasyLogger;
 
 import java.text.Collator;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Shops {
     public static List<Shop> shops = new ArrayList<>();
     public static List<Shop> shops_ = new ArrayList<>(); //temporary list
+    public static List<Shop> genre = new ArrayList<>(); //temporary list
 
     private static final EasyLogger logger  = new EasyLogger("shops", true);
 
@@ -61,11 +63,13 @@ public class Shops {
     }
 
     /**
-     *
-     * @param sortOption "Rating", "Name", "ID"
-     * @return sorted shops list
+     * <li>0: IDでソート</li>
+     * <li>1: 名前でソート(日本語)</li>
+     * <li>2: 評価でソート</li>
+     * <li>3: 距離でソート</li>
+     * @param sortOption 0 ~ 3
      */
-    public static List<Shop> sortedShops(int sortOption) {
+    public static void sortedShops(int sortOption) {
         refresh();
         switch (sortOption){
             case 0: sortById(); break;
@@ -75,6 +79,32 @@ public class Shops {
             default: sortById(); break;
         }
         logger.debug(shops_);
-        return shops_;
     }
+
+    /**
+     * フィルタリングされた店舗リストを取得します。
+     *
+     * @param genre フィルタリングしたいジャンル。
+     * @return フィルタリングされた店舗リスト。
+     */
+    public static List<Shop> filteredShops(String genre) {
+        return shops_.stream()
+                .filter(shop -> shop.getGenre().equals(genre))
+                .collect(Collectors.toList());
+    }
+
+    public static List<String> getUniqueGenres() {
+        Set<String> genresSet = new HashSet<>();
+        genresSet.add("None");
+        for (Shop shop : shops) {
+            genresSet.add(shop.getGenre());
+        }
+        List<String> genresList = new ArrayList<>(genresSet);
+
+        // Add "None" at the beginning of the list
+        genresList.add(0, "None");
+
+        return genresList;
+    }
+
 }
