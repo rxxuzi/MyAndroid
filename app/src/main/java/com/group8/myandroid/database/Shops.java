@@ -13,8 +13,6 @@ public class Shops {
     // Filtered and/or sorted shops list
     public static List<Shop> shops_ = new ArrayList<>(shops);
 
-    public static List<Shop> genre = new ArrayList<>(); //temporary list
-
     private static int sortOp_ = -1;
 
     private static final EasyLogger logger  = new EasyLogger("shops", true);
@@ -47,7 +45,6 @@ public class Shops {
             // 名前を取得してCollatorを使って比較
             return collator.compare(s1.getName(), s2.getName());
         });
-
     }
 
 
@@ -55,6 +52,8 @@ public class Shops {
         shops_.clear();
         for (Shop shop : shops) {
             if (shop.getName().contains(keyword)) {
+                shops_.add(shop);
+            } else if (shop.getName().toLowerCase().contains(keyword.toLowerCase())){
                 shops_.add(shop);
             }
         }
@@ -78,14 +77,7 @@ public class Shops {
     public static void sortShops(int sortOption) {
         //直近のソートオプションを保存
         sortOp_ = sortOption;
-        switch (sortOption){
-            case 0: sortById(); break;
-            case 1: sortByNameInJp(); break;
-            case 2: sortByRating(); break;
-            case 3: sortByRating(); break; //tmp
-            default: sortById(); break;
-        }
-        logger.debug(shops_);
+        sortShops();
     }
 
     public static void sortShops() {

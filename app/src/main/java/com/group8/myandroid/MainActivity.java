@@ -5,9 +5,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -39,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private LocationProvider locationProvider;
     public static final boolean LOAD = true;
+    RecyclerView recyclerView;
     private ShopAdapter shopAdapter; // RecyclerViewのアダプター
+    private EditText searchBar;
+    private Button btnSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
 
-//        debugLog();
-
         // LocationProvider の初期化
         locationProvider = new LocationProvider(this);
+
+        searchBar = findViewById(R.id.searchBar);
+        btnSearch = findViewById(R.id.btnSearch);
 
         // パーミッションがある場合のみ、位置情報を取得
         if (ContextCompat.checkSelfPermission(
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 //        requestLocationPermission();
 
         // RecyclerViewのインスタンスを取得
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
 
         // LayoutManagerをセット（ここではLinearLayoutManagerを使用）
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -154,6 +156,22 @@ public class MainActivity extends AppCompatActivity {
                 // Do nothing here.
             }
         });
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performSearch();
+            }
+        });
+    }
+
+    private void performSearch() {
+        String query = searchBar.getText().toString();
+        logger.debug("Searching for: " + query);
+        Shops.findByKeyword(query);
+        new EasyLogger(this).debug(Shops.shops_);
+        shopAdapter.setShops(Shops.shops_);
+        recyclerView.setAdapter(shopAdapter);
     }
 
     private void requestLocationPermission() {
