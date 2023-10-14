@@ -70,7 +70,7 @@ public class Shops {
      * @param sortOption 0 ~ 3
      */
     public static void sortedShops(int sortOption) {
-        refresh();
+//        refresh();
         switch (sortOption){
             case 0: sortById(); break;
             case 1: sortByNameInJp(); break;
@@ -87,7 +87,8 @@ public class Shops {
      * @param genre フィルタリングしたいジャンル。
      * @return フィルタリングされた店舗リスト。
      */
-    public static List<Shop> filteredShops(String genre) {
+    public static List<Shop> getFilteredShops(String genre) {
+
         return shops_.stream()
                 .filter(shop -> shop.getGenre().equals(genre))
                 .collect(Collectors.toList());
@@ -95,7 +96,6 @@ public class Shops {
 
     public static List<String> getUniqueGenres() {
         Set<String> genresSet = new HashSet<>();
-        genresSet.add("None");
         for (Shop shop : shops) {
             genresSet.add(shop.getGenre());
         }

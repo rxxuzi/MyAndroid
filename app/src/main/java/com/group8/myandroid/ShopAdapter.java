@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
-    private final List<Shop> shopList;
+    private List<Shop> shopList;
     private final Context context;
 
     public ShopAdapter(List<Shop> shopList, Context context) {
@@ -70,6 +70,19 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             shopNameTextView = itemView.findViewById(R.id.shopName);
             btnMap = itemView.findViewById(R.id.btnMap);
         }
+    }
+
+    public void setShops(List<Shop> newShops) {
+        this.shopList = newShops;
+        notifyDataSetChanged();
+    }
+
+    public void addShop(Shop shop) {
+        shopList.add(shop);
+    }
+
+    public List<Shop> getShops() {
+        return shopList;  // 返却値の型は List<Shop> だが、実際には ArrayList<Shop> を返す。
     }
 }
 

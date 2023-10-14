@@ -3,6 +3,7 @@ package com.group8.myandroid;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,7 +30,7 @@ import java.util.List;
  *
  * @see AppCompatActivity
  * @author rxxuzi
- * @version 1.0.0
+ * @version 1.5.0
  * @since 1.0.3
  */
 public class MainActivity extends AppCompatActivity {
@@ -122,33 +123,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Setup genre spinner
         Spinner genreSpinner = findViewById(R.id.genreSpinner);
-
-        // Get unique genres from shops
         List<String> genres = Shops.getUniqueGenres();
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
+        // 文字列配列とデフォルトのスピナーレイアウトを使用して ArrayAdapter を作成する
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genres);
 
-        // Specify the layout to use when the list of choices appears
+        //　選択肢のリストが表示されたときに使用するレイアウトを指定する
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Apply the adapter to the spinner
         genreSpinner.setAdapter(adapter);
 
         genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedGenre = genreSpinner.getSelectedItem().toString();
+                if ("None".equals(selectedGenre)) {
+                    updateAdapter(Shops.shops_);
+                } else {
+                    updateAdapter(Shops.shops_);
+                }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here.
             }
         });
+    }
 
+    private void updateAdapter(List<Shop> shops) {
+        shopAdapter.setShops(shops);
     }
 
     private void sortShops(int sortOption) {
