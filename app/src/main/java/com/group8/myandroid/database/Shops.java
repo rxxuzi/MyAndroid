@@ -16,7 +16,6 @@ public class Shops {
     public static List<Shop> genre = new ArrayList<>(); //temporary list
 
     private static int sortOp_ = -1;
-    private static String  genreOp_ = "None";
 
     private static final EasyLogger logger  = new EasyLogger("shops", true);
 
@@ -69,17 +68,6 @@ public class Shops {
         }
     }
 
-
-    public static void updateShops(){
-        switch (sortOp_){
-            case 0: sortById(); break;
-            case 1: sortByNameInJp(); break;
-            case 2: sortByRating(); break;
-            case 3: sortByRating(); break;
-            default: sortById(); break;
-        }
-    }
-
     /**
      * <li>0: IDでソート</li>
      * <li>1: 名前でソート(日本語)</li>
@@ -100,15 +88,25 @@ public class Shops {
         logger.debug(shops_);
     }
 
+    public static void sortShops() {
+        switch (sortOp_){
+            case 0: sortById(); break;
+            case 1: sortByNameInJp(); break;
+            case 2: sortByRating(); break;
+            case 3: sortByRating(); break; //tmp
+            default: sortById(); break;
+        }
+    }
+
     public static void filterShopsByGenre(String genre) {
-        genreOp_ = genre;
         if ("None".equals(genre)) {
             shops_ = new ArrayList<>(shops);  // No filtering, use all shops
         } else {
-            shops_ = shops.stream()
+            shops_ = shops_.stream()
                     .filter(shop -> genre.equals(shop.getGenre()))
                     .collect(Collectors.toList());  // Filter by selected genre
         }
+        sortShops();
     }
 
     /**
