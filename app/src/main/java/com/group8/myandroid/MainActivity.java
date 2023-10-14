@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
 
-        debugLog();
+//        debugLog();
 
         // LocationProvider の初期化
         locationProvider = new LocationProvider(this);
@@ -105,26 +105,13 @@ public class MainActivity extends AppCompatActivity {
         ShopAdapter shopAdapter = new ShopAdapter(Shops.shops_, this);
         recyclerView.setAdapter(shopAdapter);
 
-        // SortSpinner(ソート選択をするスピナー)
+        // Setup sort spinner
         Spinner sortSpinner = findViewById(R.id.sortSpinner);
-
-        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sortShops(position);
-                // アダプターにデータセットが変更されたことを通知
-//                shopAdapter.notifyDataSetChanged();
-                recyclerView.setAdapter(shopAdapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // 何も選択されていない場合のコード（通常は無視）
-            }
-        });
 
         // Setup genre spinner
         Spinner genreSpinner = findViewById(R.id.genreSpinner);
+
+        // ジャンルのリストを取得
         List<String> genres = Shops.getUniqueGenres();
 
         // 文字列配列とデフォルトのスピナーレイアウトを使用して ArrayAdapter を作成する
@@ -134,16 +121,16 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genreSpinner.setAdapter(adapter);
 
-        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+        //　以下各スピナーのアクション
+
+        // ソート
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedGenre = genreSpinner.getSelectedItem().toString();
-                if ("None".equals(selectedGenre)) {
-                    updateAdapter(Shops.shops_);
-                } else {
-                    updateAdapter(Shops.shops_);
-                }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Shops.sortShops(position);
+                shopAdapter.update();  // UIを更新
+                recyclerView.setAdapter(shopAdapter);
             }
 
             @Override
@@ -151,20 +138,22 @@ public class MainActivity extends AppCompatActivity {
                 // Do nothing here.
             }
         });
-    }
 
-    private void updateAdapter(List<Shop> shops) {
-        shopAdapter.setShops(shops);
-    }
+        // フィルタリング
+        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // フィルタリングするジャンルを取得
+                String selectedGenre = genreSpinner.getSelectedItem().toString();
+                Shops.filterShopsByGenre(selectedGenre);
+                shopAdapter.setShops(Shops.shops_);
+            }
 
-    private void sortShops(int sortOption) {
-        // 店舗リストをソートする
-        Shops.sortedShops(sortOption);
-        if (shopAdapter == null) {
-            logger.error("shopAdapter is null");
-        }else{
-            shopAdapter.notifyDataSetChanged();  // UIを更新
-        }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here.
+            }
+        });
     }
 
     private void requestLocationPermission() {

@@ -7,9 +7,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Shops {
-    public static List<Shop> shops = new ArrayList<>();
-    public static List<Shop> shops_ = new ArrayList<>(); //temporary list
+    // Existing shops list
+    public static final List<Shop> shops = new ArrayList<>();
+
+    // Filtered and/or sorted shops list
+    public static List<Shop> shops_ = new ArrayList<>(shops);
+
     public static List<Shop> genre = new ArrayList<>(); //temporary list
+
+    private static int sortOp_ = -1;
+    private static String  genreOp_ = "None";
 
     private static final EasyLogger logger  = new EasyLogger("shops", true);
 
@@ -44,7 +51,7 @@ public class Shops {
 
     }
 
-    //距離でソート
+
     public static void findByKeyword(String keyword) {
         shops_.clear();
         for (Shop shop : shops) {
@@ -62,6 +69,17 @@ public class Shops {
         }
     }
 
+
+    public static void updateShops(){
+        switch (sortOp_){
+            case 0: sortById(); break;
+            case 1: sortByNameInJp(); break;
+            case 2: sortByRating(); break;
+            case 3: sortByRating(); break;
+            default: sortById(); break;
+        }
+    }
+
     /**
      * <li>0: IDでソート</li>
      * <li>1: 名前でソート(日本語)</li>
@@ -69,8 +87,9 @@ public class Shops {
      * <li>3: 距離でソート</li>
      * @param sortOption 0 ~ 3
      */
-    public static void sortedShops(int sortOption) {
-//        refresh();
+    public static void sortShops(int sortOption) {
+        //直近のソートオプションを保存
+        sortOp_ = sortOption;
         switch (sortOption){
             case 0: sortById(); break;
             case 1: sortByNameInJp(); break;
@@ -81,19 +100,22 @@ public class Shops {
         logger.debug(shops_);
     }
 
-    /**
-     * フィルタリングされた店舗リストを取得します。
-     *
-     * @param genre フィルタリングしたいジャンル。
-     * @return フィルタリングされた店舗リスト。
-     */
-    public static List<Shop> getFilteredShops(String genre) {
-
-        return shops_.stream()
-                .filter(shop -> shop.getGenre().equals(genre))
-                .collect(Collectors.toList());
+    public static void filterShopsByGenre(String genre) {
+        genreOp_ = genre;
+        if ("None".equals(genre)) {
+            shops_ = new ArrayList<>(shops);  // No filtering, use all shops
+        } else {
+            shops_ = shops.stream()
+                    .filter(shop -> genre.equals(shop.getGenre()))
+                    .collect(Collectors.toList());  // Filter by selected genre
+        }
     }
 
+    /**
+     * ジャンルを取得し、リスト化する。
+     * またリスト化する際に、index : 0 に "None" を追加する。
+     * @return genreList
+     */
     public static List<String> getUniqueGenres() {
         Set<String> genresSet = new HashSet<>();
         for (Shop shop : shops) {

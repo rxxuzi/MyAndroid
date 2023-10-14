@@ -74,7 +74,11 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     public void setShops(List<Shop> newShops) {
         this.shopList = newShops;
-        notifyDataSetChanged();
+        update();
+    }
+
+    public void update(){
+    	notifyDataSetChanged();
     }
 
     public void addShop(Shop shop) {
