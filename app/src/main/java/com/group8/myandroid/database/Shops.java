@@ -64,7 +64,6 @@ public class Shops {
             latitude = 35.72224704587137;
             longitude = 139.77610034729082;
         }
-
         double finalLatitude = latitude;
         double finalLongitude = longitude;
         shops_.sort(Comparator.comparingDouble(s -> s.getDistance(finalLatitude, finalLongitude)));
