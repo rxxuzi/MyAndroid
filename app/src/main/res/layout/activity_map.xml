@@ -24,10 +24,11 @@
                 android:gravity="center"/>
 
         <Button
-                android:id="@+id/prevButton"
+                android:id="@+id/btnInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Prev"/>
+                android:text="Info"/>
+
     </LinearLayout>
 
 <!--    <org.osmdroid.views.MapView-->

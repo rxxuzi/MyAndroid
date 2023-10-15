@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:padding="16dp">
+
+    <TextView
+            android:id="@+id/tvShopName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/shopName"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+            android:id="@+id/rbShopRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="4"
+            android:stepSize="0.1"
+            style="@style/CustomRatingBar"
+            app:layout_constraintStart_toStartOf="@+id/tvShopName"
+            app:layout_constraintTop_toBottomOf="@+id/tvShopName" />
+
+    <TextView
+            android:id="@+id/tvShopDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/sampleDescription"
+            android:textColor="@android:color/black"
+            android:maxLines="5"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rbShopRating" />
+
+
+    <TextView
+            android:id="@+id/tvAddressTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/address"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvShopDescription"
+            app:layout_constraintTop_toBottomOf="@+id/tvShopDescription" />
+
+    <TextView
+            android:id="@+id/tvShopAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvShopDescription"
+            app:layout_constraintStart_toStartOf="@+id/tvShopDescription"
+            app:layout_constraintTop_toBottomOf="@+id/tvAddressTitle"
+            tools:text="123 Main Street, City, Country" />
+
+    <TextView
+            android:id="@+id/tvWebsiteTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/website"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvShopDescription"
+            app:layout_constraintTop_toBottomOf="@+id/tvShopAddress" />
+
+    <TextView
+            android:id="@+id/tvShopWebsite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#0277BD"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvShopDescription"
+            app:layout_constraintStart_toStartOf="@+id/tvShopDescription"
+            app:layout_constraintTop_toBottomOf="@+id/tvWebsiteTitle"
+            tools:text="www.sample.com"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

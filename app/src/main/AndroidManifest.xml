@@ -44,5 +44,8 @@
 
         <activity android:name=".MapActivity" />
 
+        <activity android:name=".InfoActivity" />
+
+
     </application>
 </manifest>
