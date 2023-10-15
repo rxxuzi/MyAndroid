@@ -1,9 +1,9 @@
 package com.group8.myandroid;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
@@ -14,10 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.group8.myandroid.database.DatabaseHelper;
 import com.group8.myandroid.database.DatabaseManager;
-import com.group8.myandroid.database.Shop;
 import com.group8.myandroid.database.Shops;
 import com.group8.myandroid.global.EasyLogger;
-import android.Manifest;
 
 import java.util.List;
 
@@ -48,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         shopAdapter = new ShopAdapter(Shops.shops_, this);
+        searchBar = findViewById(R.id.searchBar);
+        btnSearch = findViewById(R.id.btnSearch);
 
         DatabaseManager.dbCleanUp(this);
 
@@ -66,35 +66,17 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
 
-        // LocationProvider の初期化
+        //位置情報を取得
         locationProvider = new LocationProvider(this);
 
-        searchBar = findViewById(R.id.searchBar);
-        btnSearch = findViewById(R.id.btnSearch);
+        requestLocationPermission();
 
         // パーミッションがある場合のみ、位置情報を取得
         if (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // 位置情報をログに出力
             Location currentLocation = locationProvider.getCurrentLocation();
-            if (currentLocation != null) {
-                logger.debug("Latitude: " + currentLocation.getLatitude());
-                logger.debug("Longitude: " + currentLocation.getLongitude());
-            }
         }
-
-        Location currentLocation = locationProvider.getCurrentLocation();
-        if (currentLocation != null) {
-            double latitude = currentLocation.getLatitude();
-            double longitude = currentLocation.getLongitude();
-            logger.debug("Latitude: " + latitude + ", Longitude: " + longitude);
-        } else {
-            logger.debug("Location is null");
-        }
-
-//        //位置情報を取得
-//        locationProvider = new LocationProvider(this);
-//        requestLocationPermission();
 
         // RecyclerViewのインスタンスを取得
         recyclerView = findViewById(R.id.recyclerView);
@@ -167,9 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void performSearch() {
         String query = searchBar.getText().toString();
-        logger.debug("Searching for: " + query);
         Shops.findByKeyword(query);
-        new EasyLogger(this).debug(Shops.shops_);
         shopAdapter.setShops(Shops.shops_);
         recyclerView.setAdapter(shopAdapter);
     }
@@ -198,11 +178,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void debugLog() {
-        for (Shop shop : Shops.shops) {
-            logger.debug(shop.toString());
-        }
-
-        logger.debug("Shops.shops.size() = " + Shops.shops.size());
-    }
 }

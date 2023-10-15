@@ -75,6 +75,10 @@ public class Shop {
     public String getGenre() {
         return genre;
     }
+
+    public double getDistance(double lat, double lon) {
+        return Math.sqrt(Math.pow(lat - latitude, 2) + Math.pow(lon - longitude, 2));
+    }
     public String getDescription() {
         return description;
     }

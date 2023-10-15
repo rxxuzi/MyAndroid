@@ -1,6 +1,7 @@
 package com.group8.myandroid.database;
 
 import com.group8.myandroid.LocationProvider;
+import com.group8.myandroid.global.EasyLogger;
 
 import java.text.Collator;
 import java.util.*;
@@ -50,14 +51,16 @@ public class Shops {
         shops_.sort(Comparator.comparingDouble(Shop::getRating));
     }
 
+    static EasyLogger el = new EasyLogger("Shops");
     //距離でソート
     public static void sortByDistance() {
         double latitude,  longitude;
         try{
             latitude = LocationProvider.getCurrentLocation().getLatitude();
             longitude = LocationProvider.getCurrentLocation().getLongitude();
+            el.debug("latitude: " + latitude + ", longitude: " + longitude);
         }catch (NullPointerException e){
-            new com.group8.myandroid.global.EasyLogger("Location").error(e);
+            el.error(e);
             latitude = 35.72224704587137;
             longitude = 139.77610034729082;
         }
