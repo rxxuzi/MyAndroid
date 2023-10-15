@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import com.group8.myandroid.database.Shop;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -55,11 +56,17 @@ public class MapActivity extends AppCompatActivity {
         this.longitude = longitude;
     }
 
+
+    private Shop shop_;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
+
+        shop_ = (Shop) getIntent().getExtras().getSerializable("shop");
+
         this.latitude = intent.getDoubleExtra("latitude", 0);
         this.longitude = intent.getDoubleExtra("longitude", 0);
         String shopName = intent.getStringExtra("shopName");
@@ -151,14 +158,12 @@ public class MapActivity extends AppCompatActivity {
         mapView.getOverlays().add(locationOverlay);
 
 
-        //前の画面に遷移するボタン
-        // ボタンにクリックリスナーをセット
-        Button prevButton = findViewById(R.id.prevButton);
-        prevButton.setOnClickListener(new View.OnClickListener() {
+        // INFO ボタンにリスナーをセット
+        Button btnInfo = findViewById(R.id.btnInfo);
+        btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 現在のアクティビティを終了し、前のアクティビティに戻る
-                finish();
+                openInfoActivity();
             }
         });
 
@@ -166,6 +171,14 @@ public class MapActivity extends AppCompatActivity {
         TextView tvShopName = findViewById(R.id.tvShopName);
         tvShopName.setText(shopName);
 
+    }
+
+    // 新しいアクティビティを開くメソッド
+    private void openInfoActivity() {
+        // オプション：店舗情報をIntentに追加（遷移先で使用する場合）
+        Intent intent = new Intent(MapActivity.this, InfoActivity.class);
+        intent.putExtra("shop", shop_);  // selectedShopは選択されたShopインスタンス
+        startActivity(intent);
     }
 
     /**

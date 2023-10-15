@@ -52,6 +52,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             intent.putExtra("latitude", currentShop.getLatitude());
             intent.putExtra("longitude", currentShop.getLongitude());
             intent.putExtra("shopName", currentShop.getName());  // 店舗名を追加
+            intent.putExtra("shop", currentShop);  // selectedShopは選択されたShopインスタンス
             context.startActivity(intent);
         });
     }

@@ -1,8 +1,12 @@
 package com.group8.myandroid.database;
 
+import com.group8.myandroid.global.EasyLogger;
 import org.jetbrains.annotations.NotNull;
 
-public class Shop {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Shop implements Serializable {
     private final int id;
     private String name;
     private final double[] location;
@@ -79,36 +83,23 @@ public class Shop {
     public double getDistance(double lat, double lon) {
         return Math.sqrt(Math.pow(lat - latitude, 2) + Math.pow(lon - longitude, 2));
     }
+
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    public String getHomepage() {
+    public String getWebsite(){
+        new EasyLogger(this).debug(homepage + ":" + sns);
+        if (Objects.equals(homepage, "null") && Objects.equals(sns, "null")) {
+            return "None";
+        }else if (Objects.equals(homepage, "null")) {
+            return sns;
+        }
         return homepage;
-    }
-
-    public void setHomepage(String homepage) {
-        this.homepage = homepage;
-    }
-
-    public String getSns() {
-        return sns;
-    }
-
-    public void setSns(String sns) {
-        this.sns = sns;
     }
 
     public String getDomicile() {
         return domicile;
     }
 
-    public void setDomicile(String domicile) {
-        this.domicile = domicile;
-    }
 }
