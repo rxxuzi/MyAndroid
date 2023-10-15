@@ -18,7 +18,7 @@ import com.group8.myandroid.global.EasyLogger;
 public class LocationProvider implements LocationListener {
 
     private LocationManager locationManager;
-    private Location currentLocation;
+    private static Location currentLocation;
     private static final long UPDATE_TIME = 1000;  // 更新時間（ミリ秒）
     private static final float UPDATE_DISTANCE = 1; // 更新距離（メートル）
 
@@ -58,7 +58,7 @@ public class LocationProvider implements LocationListener {
      *
      * @return the last known location, or null if no location is available.
      */
-    public Location getCurrentLocation() {
+    public static Location getCurrentLocation() {
         return currentLocation;
     }
 
