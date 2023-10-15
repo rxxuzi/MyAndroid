@@ -1,21 +1,39 @@
 package com.group8.myandroid.database;
 
-import com.group8.myandroid.global.EasyLogger;
+import com.group8.myandroid.LocationProvider;
 
 import java.text.Collator;
 import java.util.*;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
+/**
+ * <h1>Shops</h1>
+ * This class provides {@link Shop} related lists and methods such as sorting and filtering.
+ * <p>
+ *     <li>shops: Existing shops list</li>
+ *     <li>shops_: Filtered and/or sorted shops list</li>
+ *     <li>sortOp_: Last used sort option</li>
+ *     <li>refresh(): Refresh shops list</li>
+ *     <li>sortShops(int sortOption): Sort shops list</li>
+ *     <li>filterShopsByGenre(String genre): Filter shops list by genre</li>
+ *     <li>findByKeyword(String keyword): Find shops by keyword</li>
+ *     <li>sortShops(): Sort shops list based on last used sort option</li>
+ * </p>
+ *
+ * @see Shop
+ * @author rxxuzi
+ * @since 1.3.2
+ *
+ */
 public class Shops {
-    // Existing shops list
+    // 既存のリスト (更新不可能)
     public static final List<Shop> shops = new ArrayList<>();
 
-    // Filtered and/or sorted shops list
+    // フィルタリングおよび/またはソートされたショップリスト
     public static List<Shop> shops_ = new ArrayList<>(shops);
 
     private static int sortOp_ = -1;
-
-    private static final EasyLogger logger  = new EasyLogger("shops", true);
 
     public static void refresh() {
         shops_.clear();
@@ -32,11 +50,29 @@ public class Shops {
         shops_.sort(Comparator.comparingDouble(Shop::getRating));
     }
 
-    //名前でソート
+    //距離でソート
+    public static void sortByDistance() {
+        double latitude,  longitude;
+        try{
+            latitude = LocationProvider.getCurrentLocation().getLatitude();
+            longitude = LocationProvider.getCurrentLocation().getLongitude();
+        }catch (NullPointerException e){
+            new com.group8.myandroid.global.EasyLogger("Location").error(e);
+            latitude = 35.72224704587137;
+            longitude = 139.77610034729082;
+        }
+
+        double finalLatitude = latitude;
+        double finalLongitude = longitude;
+        shops_.sort(Comparator.comparingDouble(s -> s.getDistance(finalLatitude, finalLongitude)));
+        // reverse sort shops_
+        Collections.reverse(shops_);
+    }
+
+    @Deprecated
     public static void sortByName() {
         shops_.sort(Comparator.comparing(Shop::getName));
     }
-
     //名前でソート(日本語)
     public static void sortByNameInJp() {
         // 日本語のコンパレータを取得
@@ -47,7 +83,7 @@ public class Shops {
         });
     }
 
-
+    //　文字列から対応するクラスのみをshops_に追加する
     public static void findByKeyword(String keyword) {
         shops_.clear();
         for (Shop shop : shops) {
@@ -56,14 +92,6 @@ public class Shops {
             } else if (shop.getName().toLowerCase().contains(keyword.toLowerCase())){
                 shops_.add(shop);
             }
-        }
-    }
-
-    //デバッグ用
-    public static void print() {
-        EasyLogger easyLogger = new EasyLogger("Shops DB Debug", true);
-        for (Shop shop : shops) {
-            easyLogger.debug(shop);
         }
     }
 
@@ -85,7 +113,7 @@ public class Shops {
             case 0: sortById(); break;
             case 1: sortByNameInJp(); break;
             case 2: sortByRating(); break;
-            case 3: sortByRating(); break; //tmp
+            case 3: sortByDistance(); break;
             default: sortById(); break;
         }
     }
@@ -113,7 +141,7 @@ public class Shops {
         }
         List<String> genresList = new ArrayList<>(genresSet);
 
-        // Add "None" at the beginning of the list
+        // "None" を 0番目の要素に追加
         genresList.add(0, "None");
 
         return genresList;
