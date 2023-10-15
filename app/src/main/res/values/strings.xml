@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">MyAndroid</string>
+    <string name="address">Address:</string>
+    <string name="website">Website:</string>
+    <string name="sampleDescription">Here is a brief description of the shop. This can include information about the
+        shop\'s specialty items, history, or any other relevant details.
+    </string>
+    <string name="shopName">Shop Name</string>
 
     <string-array name="genre_array">
         <item>id-0</item>
