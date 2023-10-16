@@ -6,18 +6,28 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * <h1>Shop</h1>
+ * Represents a shop with various attributes such as name, description, and address.
+ * <p>
+ * The Shop class captures all the details related to a specific shop. It implements the Serializable interface
+ * which means its instances can be converted to a byte stream and back, allowing a Shop object to be easily saved
+ * and restored, such as when passing between activities using Intents.
+ * </p>
+ *
+ * @author rxxuzi
+ */
 public class Shop implements Serializable {
     private final int id;
     private String name;
-    private final double[] location;
     private final double latitude;
     private final double longitude;
     private final double rating;
     private final String genre;
-    private String description;
-    private String homepage;
-    private String sns;
-    private String domicile;
+    private final String description;
+    private final String homepage;
+    private final String sns;
+    private final String domicile;
 
     // コンストラクタ
     public Shop(int id, String name, double latitude, double longitude, double rating,
@@ -32,28 +42,15 @@ public class Shop implements Serializable {
         this.homepage = homepage;
         this.sns = sns;
         this.domicile = domicile;
-        this.location = new double[]{latitude, longitude};
     }
 
+    // Getters and Setters are omitted for brevity...
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-
-    @NotNull
-    @Override
-
-    public String toString() {
-        return "id: " + id +
-                ", name: " + name +
-                ", [lat: " + latitude +
-                ", long: " + longitude + "]" +
-                ", rating: " + rating +
-                ", genre: " + genre;
     }
 
     public int getId() {
@@ -66,10 +63,6 @@ public class Shop implements Serializable {
 
     public double getLongitude() {
         return longitude;
-    }
-
-    public double[] getLocation(){
-        return location;
     }
 
     public double getRating() {
@@ -88,8 +81,14 @@ public class Shop implements Serializable {
         return description;
     }
 
+    /**
+     * Get website or SNS
+     * If both website and sns are present, the website is returned first.
+     * If homepage is null, return sns
+     * If homepage and sns are null, return "None"
+     * @return sns or homepage or "None"
+     */
     public String getWebsite(){
-        new EasyLogger(this).debug(homepage + ":" + sns);
         if (Objects.equals(homepage, "null") && Objects.equals(sns, "null")) {
             return "None";
         }else if (Objects.equals(homepage, "null")) {
@@ -100,6 +99,19 @@ public class Shop implements Serializable {
 
     public String getDomicile() {
         return domicile;
+    }
+
+    // Override toString() for debugging purposes
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "id: " + id +
+                ", name: " + name +
+                ", [lat: " + latitude +
+                ", long: " + longitude + "]" +
+                ", rating: " + rating +
+                ", genre: " + genre;
     }
 
 }
