@@ -3,13 +3,15 @@ package com.group8.myandroid.database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import com.group8.myandroid.R;
+import com.group8.myandroid.global.BasicDBManager;
 import com.group8.myandroid.global.EasyLogger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import com.group8.myandroid.database.*;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * <h1>DatabaseManager</h1>
@@ -22,10 +24,12 @@ import java.io.InputStream;
  * @version 1.2
  * @since 1.0.3
  */
-public class DatabaseManager {
+public class DatabaseManager implements BasicDBManager {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
     private final Context context;
+    private static final boolean SAVE_ID = false;
+
     EasyLogger  logger = new EasyLogger("DBManger", true);
 
     /**
@@ -43,16 +47,63 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Retrieve a writable instance of the database.
+     *
+     * @return Writable database instance.
+     */
+    @Override
+    public SQLiteDatabase getWritableDatabase() {
+        return dbHelper.getWritableDatabase();
+    }
+
+    /**
+     * Retrieve a readable instance of the database.
+     *
+     * @return Readable database instance.
+     */
+    @Override
+    public SQLiteDatabase getReadableDatabase() {
+        return dbHelper.getReadableDatabase();
+    }
+
+    @SuppressWarnings("unused")
     public void dbCleanUp() {
         database.delete(DatabaseHelper.TABLE_NAME, null, null);
+        closeDatabase();
+    }
+
+    /**
+     * Upgrade the database to a new version.
+     *
+     * @param oldVersion The old database version.
+     * @param newVersion The new database version.
+     */
+    @Override
+    public void upgradeDatabase(int oldVersion, int newVersion) {
+        // nothing
+    }
+
+    /**
+     * Close the database.
+     */
+    @Override
+    public void closeDatabase() {
         database.close();
     }
 
-    // TODO クリーンアップした時にidが0からスタートしない問題を解決する
     public static void dbCleanUp(Context context) {
         DatabaseHelper dbHelper = new DatabaseHelper(context);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
+        // テーブルから全てのデータを削除
         database.delete(DatabaseHelper.TABLE_NAME, null, null);
+
+        if (!SAVE_ID){
+            // sqlite_sequence テーブルから該当するテーブルのエントリを削除して、IDのカウンタをリセット
+            String resetSql = "DELETE FROM sqlite_sequence WHERE name=?";
+            database.execSQL(resetSql, new String[]{DatabaseHelper.TABLE_NAME});
+        }
+
         database.close();
     }
 
@@ -60,27 +111,26 @@ public class DatabaseManager {
     /**
      * Inserts a new shop record into the database.
      *
-     * @param name the name of the shop.
-     * @param latitude the latitude of the shop's location.
-     * @param longitude the longitude of the shop's location.
-     * @param rating the rating of the shop.
-     *                      (0.0 - 5.0)
-     * @param genre the genre of the shop.
-     *                      (e.g. "Japanese", "Chinese", "Korean", "Noodle")
+     * @param name        the name of the shop.
+     * @param latitude    the latitude of the shop's location.
+     * @param longitude   the longitude of the shop's location.
+     * @param rating      the rating of the shop.
+     *                    (0.0 - 5.0)
+     * @param genre       the genre of the shop.
+     *                    (e.g. "Japanese", "Chinese", "Korean", "Noodle")
      * @param description the description of the shop.
-     *                      (e.g. "Japanese food", "Chinese food", "Korean food", "American food")
-     * @param homepage the homepage of the shop.
-     *                      (e.g. "http://www.example.com", null)
-     * @param sns the social network of the shop.
-     *                      (e.g. "http://www.example.com", null)
-     * @param domicile the domicile of the shop.
-     *                      (e.g. "Tokyo, Japan", "New York, USA")
-     * @return the row ID of the newly inserted shop record.
+     *                    (e.g. "Japanese food", "Chinese food", "Korean food", "American food")
+     * @param homepage    the homepage of the shop.
+     *                    (e.g. "<a href="http://www.example.com">example.com</a>", null)
+     * @param sns         the social network of the shop.
+     *                    (e.g. "<a href="http://www.example.com">example.com</a>", null)
+     * @param domicile    the domicile of the shop.
+     *                    (e.g. "Tokyo, Japan", "New York, USA")
      */
-    public long insertShop(String name, double latitude, double longitude,
+    public void insertShop(String name, double latitude, double longitude,
                            double rating, String genre, String description,
                            String homepage, String sns, String domicile) {
-        return dbHelper.insertShops(name, latitude, longitude, rating, genre,
+        dbHelper.insertShops(name, latitude, longitude, rating, genre,
                 description, homepage, sns, domicile);
     }
 
@@ -89,13 +139,16 @@ public class DatabaseManager {
      * @throws Exception if the shop record is not found.
      * @since 1.0.3
      */
-    public void loadShopsFromJson() throws Exception {
+    public void loadFromJson() throws Exception {
         // JSONデータの読み込み
         InputStream is = context.getResources().openRawResource(R.raw.shops);
         byte[] buffer = new byte[is.available()];
-        is.read(buffer);
+        int bytesRead = is.read(buffer);
+        if (bytesRead != buffer.length) {
+            Log.e(this.getClass().getName(), "loadFromJson: Failed to read JSON data");
+        }
         is.close();
-        String json = new String(buffer, "UTF-8");
+        String json = new String(buffer, StandardCharsets.UTF_8);
 
         // JSONデータのパース
         JSONArray jsonArray = new JSONArray(json);
@@ -118,6 +171,7 @@ public class DatabaseManager {
         }
 
     }
+
 
     public void addShopsArray() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -161,6 +215,8 @@ public class DatabaseManager {
         db.close();  // データベース接続を閉じる
 
     }
+
+
 
 
 }

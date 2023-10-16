@@ -132,6 +132,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @see Cursor
      * @return the cursor of all shop records.
      */
+    @SuppressWarnings("unused")
     public Cursor getAllShops() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(TABLE_NAME, null, null, null, null, null, null);

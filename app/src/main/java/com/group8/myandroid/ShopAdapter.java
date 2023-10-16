@@ -1,5 +1,6 @@
 package com.group8.myandroid;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.group8.myandroid.database.Shop;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,10 +28,19 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     private List<Shop> shopList;
     private final Context context;
 
+
     public ShopAdapter(List<Shop> shopList, Context context) {
         this.shopList = shopList;
         this.context = context;
     }
+
+    /**
+     * Called when RecyclerView needs a new ViewHolder of the given type to represent an item.
+     *
+     * @param parent   The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new ViewHolder that holds a View of the given view type.
+     */
 
     @NonNull
     @Override
@@ -41,6 +50,12 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         return new ViewHolder(itemView);
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     *
+     * @param holder   The ViewHolder which should be updated to represent the contents of the item at the given position.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Shop currentShop = shopList.get(position);
@@ -57,11 +72,24 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         });
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
     @Override
     public int getItemCount() {
         return shopList.size();
     }
 
+    /**
+     * Provides a reference to the views for each data item.
+     * Complex data items may need more than one view per item,
+     * so the number of views must be provided.
+     *
+     * <p>In the implementation of this method, you should call
+     * {@link #setHasStableIds(boolean)}
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView shopNameTextView;
         Button btnMap;
@@ -78,14 +106,17 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         update();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void update(){
     	notifyDataSetChanged();
     }
 
+    @SuppressWarnings("unused")
     public void addShop(Shop shop) {
         shopList.add(shop);
     }
 
+    @SuppressWarnings("unused")
     public List<Shop> getShops() {
         return shopList;  // 返却値の型は List<Shop> だが、実際には ArrayList<Shop> を返す。
     }

@@ -16,25 +16,18 @@ import com.group8.myandroid.database.Shop;
  */
 public class InfoActivity extends AppCompatActivity {
 
-    // UI Components
-    private TextView tvName;
-    private TextView tvDescription;
-    private RatingBar rbRating;
-
-    private TextView tvShopWebsite;
-    private TextView tvShopAddress;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
         // Initialize UI Components
-        tvName = findViewById(R.id.tvShopName);
-        tvDescription = findViewById(R.id.tvShopDescription);
-        rbRating = findViewById(R.id.rbShopRating);
-        tvShopWebsite = findViewById(R.id.tvShopWebsite);
-        tvShopAddress = findViewById(R.id.tvShopAddress);
+        // UI Components
+        TextView tvName = findViewById(R.id.tvShopName);
+        TextView tvDescription = findViewById(R.id.tvShopDescription);
+        RatingBar rbRating = findViewById(R.id.rbShopRating);
+        TextView tvShopWebsite = findViewById(R.id.tvShopWebsite);
+        TextView tvShopAddress = findViewById(R.id.tvShopAddress);
 
         // Get Data from Intent
         Intent intent = getIntent();

@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private ShopAdapter shopAdapter; // RecyclerViewのアダプター
     private EditText searchBar;
-    private Button btnSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         shopAdapter = new ShopAdapter(Shops.shops_, this);
         searchBar = findViewById(R.id.searchBar);
-        btnSearch = findViewById(R.id.btnSearch);
+        Button btnSearch = findViewById(R.id.btnSearch);
 
         DatabaseManager.dbCleanUp(this);
 
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         if(LOAD){
             try {
                 // Shopsデータのロード
-                dbManager.loadShopsFromJson();
+                dbManager.loadFromJson();
                 dbManager.addShopsArray();
             } catch (Exception e) {
                 logger.error(e);
@@ -65,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
+        logger.debug("DB: " + dbHelper.getReadableDatabase());
 
         //位置情報を取得
         locationProvider = new LocationProvider(this);
@@ -75,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // 位置情報をログに出力
-            Location currentLocation = locationProvider.getCurrentLocation();
+            Location currentLocation = LocationProvider.getCurrentLocation();
+            logger.debug("Location: " + currentLocation.getLatitude() + ", " + currentLocation.getLongitude());
+
         }
 
         // RecyclerViewのインスタンスを取得
@@ -139,12 +141,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performSearch();
-            }
-        });
+        btnSearch.setOnClickListener(v -> performSearch());
     }
 
     private void performSearch() {
@@ -172,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 // Permission granted.
                 locationProvider.startLocationUpdates();
             } else {
+                // TODO
                 // Permission denied.
                 // Handle the situation when user denies the permission.
             }

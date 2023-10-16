@@ -112,10 +112,10 @@ public class Shops {
 
     public static void sortShops() {
         switch (sortOp_){
-            case 0: sortById(); break;
             case 1: sortByNameInJp(); break;
             case 2: sortByRating(); break;
             case 3: sortByDistance(); break;
+            case 0:
             default: sortById(); break;
         }
     }

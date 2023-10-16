@@ -1,21 +1,16 @@
 package com.group8.myandroid;
 
-import android.Manifest;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import com.group8.myandroid.database.Shop;
+import org.jetbrains.annotations.NotNull;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -24,7 +19,6 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,19 +38,6 @@ public class MapActivity extends AppCompatActivity {
     private static final int MARKER_WIDTH = 100;
     private static final int MARKER_HEIGHT = 100;
 
-    // マップの初期座標
-    private double latitude  = 35.68121504195521;
-    private double longitude = 139.76723861886026;
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-
     private Shop shop_;
 
     @Override
@@ -67,8 +48,9 @@ public class MapActivity extends AppCompatActivity {
 
         shop_ = (Shop) getIntent().getExtras().getSerializable("shop");
 
-        this.latitude = intent.getDoubleExtra("latitude", 0);
-        this.longitude = intent.getDoubleExtra("longitude", 0);
+        // マップの初期座標
+        double latitude = intent.getDoubleExtra("latitude", 0);
+        double longitude = intent.getDoubleExtra("longitude", 0);
         String shopName = intent.getStringExtra("shopName");
 
 
@@ -76,19 +58,6 @@ public class MapActivity extends AppCompatActivity {
         Configuration.getInstance().setUserAgentValue(getPackageName());
 
         setContentView(R.layout.activity_map);
-
-        // 現在地ボタンのインスタンスを取得
-        Button goToCurrentLocationButton = findViewById(R.id.goToCurrentLocationButton);
-
-        // 現在地ボタンのクリックリスナーを設定
-        goToCurrentLocationButton.setOnClickListener(v -> {
-            // 現在の位置情報を取得
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            if (ActivityCompat.checkSelfPermission(MapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // パーミッションの確認
-                return;
-            }
-        });
 
         //マップの初期設定
         MapView mapView = findViewById(R.id.mapView);
@@ -130,7 +99,7 @@ public class MapActivity extends AppCompatActivity {
         Drawable originalMarker = this.getResources().getDrawable(R.drawable.marker);
 
         // サイズ変更
-        Drawable resizedMarker = resize(originalMarker, MARKER_WIDTH, MARKER_HEIGHT);
+        Drawable resizedMarker = resize(originalMarker);
 
         // リサイズされたマーカーとして設定する
         myLocationOverlayItem.setMarker(resizedMarker);
@@ -139,6 +108,24 @@ public class MapActivity extends AppCompatActivity {
         List<OverlayItem> overlayItems = new ArrayList<>();
         overlayItems.add(myLocationOverlayItem);
 
+        ItemizedIconOverlay<OverlayItem> locationOverlay = getOverlayItemItemizedIconOverlay(overlayItems);
+
+
+        mapView.getOverlays().add(locationOverlay);
+
+
+        // INFO ボタンにリスナーをセット
+        Button btnInfo = findViewById(R.id.btnInfo);
+        btnInfo.setOnClickListener(v -> openInfoActivity());
+
+        // 店舗名をTextViewに設定
+        TextView tvShopName = findViewById(R.id.tvShopName);
+        tvShopName.setText(shopName);
+
+    }
+
+    @NotNull
+    private ItemizedIconOverlay<OverlayItem> getOverlayItemItemizedIconOverlay(List<OverlayItem> overlayItems) {
         ItemizedIconOverlay<OverlayItem> locationOverlay;
 
         locationOverlay = new ItemizedIconOverlay<>(overlayItems,
@@ -153,24 +140,7 @@ public class MapActivity extends AppCompatActivity {
                         return true;
                     }
                 }, getApplicationContext());
-
-
-        mapView.getOverlays().add(locationOverlay);
-
-
-        // INFO ボタンにリスナーをセット
-        Button btnInfo = findViewById(R.id.btnInfo);
-        btnInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openInfoActivity();
-            }
-        });
-
-        // 店舗名をTextViewに設定
-        TextView tvShopName = findViewById(R.id.tvShopName);
-        tvShopName.setText(shopName);
-
+        return locationOverlay;
     }
 
     // 新しいアクティビティを開くメソッド
@@ -184,14 +154,12 @@ public class MapActivity extends AppCompatActivity {
     /**
      * Resize the given drawable.
      *
-     * @param image    Original drawable to be resized.
-     * @param width    Desired width of the resulting drawable.
-     * @param height   Desired height of the resulting drawable.
-     * @return         New resized Drawable instance.
+     * @param image Original drawable to be resized.
+     * @return New resized Drawable instance.
      */
-    private Drawable resize(Drawable image, int width, int height) {
+    private Drawable resize(Drawable image) {
         Bitmap b = ((BitmapDrawable) image).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, width, height, false);
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, MapActivity.MARKER_WIDTH, MapActivity.MARKER_HEIGHT, false);
         return new BitmapDrawable(getResources(), bitmapResized);
     }
 
