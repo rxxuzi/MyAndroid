@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="CustomRatingBar" parent="Widget.AppCompat.RatingBar">
-        <item name="colorControlNormal">@android:color/darker_gray</item> <!-- 未選択の星の色 -->
+        <item name="colorControlNormal">@android:color/holo_purple</item> <!-- 未選択の星の色 -->
         <item name="colorControlActivated">@color/yellow</item> <!-- 選択された星の色 -->
     </style>
 </resources>
