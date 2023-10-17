@@ -169,9 +169,8 @@ public class MainActivity extends AppCompatActivity {
                 // Permission granted.
                 locationProvider.startLocationUpdates();
             } else {
-                // TODO
                 // Permission denied.
-                // Handle the situation when user denies the permission.
+                Toast.makeText(this, "位置情報のアクセスが拒否されました。アプリの機能が制限される可能性があります。", Toast.LENGTH_LONG).show();
             }
         }
     }
