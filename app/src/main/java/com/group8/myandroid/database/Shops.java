@@ -49,6 +49,7 @@ public class Shops {
     //評価でソート
     public static void sortByRating() {
         shops_.sort(Comparator.comparingDouble(Shop::getRating));
+        Collections.reverse(shops_);
     }
 
     static EasyLogger el = new EasyLogger("Shops");

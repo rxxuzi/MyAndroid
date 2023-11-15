@@ -22,11 +22,11 @@
             android:id="@+id/searchBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="店舗名やジャンルで検索"
+            android:hint="店舗名で検索"
             app:layout_constraintTop_toBottomOf="@id/titleText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp" android:minHeight="48dp"/>
 
     <!-- ジャンル選択 -->
     <Spinner
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@id/searchBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp" android:minHeight="48dp"/>
 
     <!-- ソート選択 -->
     <Spinner
@@ -48,13 +48,13 @@
             app:layout_constraintTop_toBottomOf="@id/genreSpinner"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp" android:minHeight="48dp"/>
 
     <!-- 店舗一覧 -->
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="394dp"
-            android:layout_height="444dp"
+            android:layout_width="392dp"
+            android:layout_height="415dp"
             app:layout_constraintBottom_toTopOf="@+id/btnSearch"
             app:layout_constraintTop_toBottomOf="@+id/sortSpinner"
             app:layout_constraintEnd_toEndOf="parent"

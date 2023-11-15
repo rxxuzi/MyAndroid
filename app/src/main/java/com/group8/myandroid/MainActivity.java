@@ -76,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // 位置情報をログに出力
             Location currentLocation = LocationProvider.getCurrentLocation();
-            logger.debug("Location: " + currentLocation.getLatitude() + ", " + currentLocation.getLongitude());
-
+//            logger.debug("Location: " + currentLocation.getLatitude() + ", " + currentLocation.getLongitude());
         }
 
         // RecyclerViewのインスタンスを取得
