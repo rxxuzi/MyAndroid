@@ -82,16 +82,10 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/goToCurrentLocationButton"
                 app:layout_constraintStart_toStartOf="parent"/>
 
         <!-- 現在地を取得 -->
-        <Button
-                android:id="@+id/goToCurrentLocationButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="現在地" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

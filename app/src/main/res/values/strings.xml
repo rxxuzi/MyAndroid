@@ -6,6 +6,7 @@
         shop\'s specialty items, history, or any other relevant details.
     </string>
     <string name="shopName">Shop Name</string>
+    <string name="currentLocation">現在地</string>
 
     <string-array name="genre_array">
         <item>id-0</item>
